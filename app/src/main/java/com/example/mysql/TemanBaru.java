@@ -31,7 +31,7 @@ public class TemanBaru extends AppCompatActivity {
     String nm,tlp;
     int success;
 
-    private static String url_insert = "http://192.168.100.7/mysql/tambah.php";
+    private static String url_insert = "http://192.168.100.7/mysql/tambahtm.php";
     private static final String TAG = TemanBaru.class.getSimpleName();
     private static final String TAG_SUCCES = "success";
 
@@ -48,36 +48,39 @@ public class TemanBaru extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 SimpanData();
-                }
-            });
-
-        }
-
-        public void SimpanData()
-        {
-            if (tNama.getText().toString().equals("") ||
-                    tTelpon.getText().toString().equals("")) {
-                Toast.makeText(TemanBaru.this,"Semua harus diisi data", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
             }
-            else
-            {
-                nm = tNama.getText().toString();
-                tlp = tTelpon.getText().toString();
+        });
+    }
 
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+    public void SimpanData()
+    {
+        if (tNama.getText().toString().equals("") ||
+                tTelpon.getText().toString().equals("")) {
+            Toast.makeText(TemanBaru.this,"Semua harus diisi data", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            nm = tNama.getText().toString();
+            tlp = tTelpon.getText().toString();
 
-                StringRequest strReq = new StringRequest(Request.Method.POST, url_insert, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d(TAG, "Response: " + response.toString());
-                        try {
-                            JSONObject jObj = new JSONObject(response);
-                            success = jObj.getInt(TAG_SUCCES);
-                            if (success == 1) {
-                                Toast.makeText(TemanBaru.this, "Sukses simpan data", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(TemanBaru.this, "gagal", Toast.LENGTH_SHORT).show();
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+            StringRequest strReq = new StringRequest(Request.Method.POST, url_insert, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d(TAG, "Response: " + response.toString());
+                    try {
+                        JSONObject jObj = new JSONObject(response);
+                        success = jObj.getInt(TAG_SUCCES);
+                        if (success == 1) {
+                            Toast.makeText(TemanBaru.this, "Sukses simpan data", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(TemanBaru.this, "gagal", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
